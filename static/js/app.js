@@ -138,6 +138,8 @@ function buildSubNav(page) {
                     <option value="6h">Last 6 Hours</option>
                     <option value="24h" selected>Last 24 Hours</option>
                     <option value="7d">Last 7 Days</option>
+                    <option value="30d">Last 30 Days</option>
+                    <option value="90d">Last 90 Days</option>
                 </select>`;
         } else if (sub === 'inventory') {
             html += `<select class="sub-nav-select" id="inv-group-filter" onchange="filterDeviceInventory()">
@@ -157,6 +159,8 @@ function buildSubNav(page) {
                     <option value="6h">Last 6 Hours</option>
                     <option value="24h" selected>Last 24 Hours</option>
                     <option value="7d">Last 7 Days</option>
+                    <option value="30d">Last 30 Days</option>
+                    <option value="90d">Last 90 Days</option>
                 </select>`;
         }
     } else if (page === 'cases') {
@@ -1991,9 +1995,9 @@ async function loadSNMP() {
                 <td><code>${escHtml(r.host_address || '-')}</code></td>
                 <td>${escHtml(r.check_type || '-')}</td>
                 <td style="color:${statusColor};font-weight:600">${r.status || '-'}</td>
-                <td>${r.cpu_load || '-'}</td>
-                <td>${r.ram_percent || '-'}</td>
-                <td>${r.disk_percent || '-'}</td>
+                <td>${r.cpu_load ? parseFloat(r.cpu_load).toFixed(2) : '-'}</td>
+                <td>${r.ram_percent ? parseFloat(r.ram_percent).toFixed(1) + '%' : '-'}</td>
+                <td>${r.disk_percent ? parseFloat(r.disk_percent).toFixed(1) + '%' : '-'}</td>
                 <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(r.description || '-')}</td>
             </tr>`;
         }
