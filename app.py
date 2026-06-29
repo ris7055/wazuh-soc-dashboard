@@ -1103,6 +1103,7 @@ def api_icmp_data():
     time_map = {
         "1h": "now-1h", "6h": "now-6h", "12h": "now-12h",
         "24h": "now-24h", "7d": "now-7d", "30d": "now-30d",
+        "90d": "now-90d", "180d": "now-180d",
     }
     time_from = time_map.get(timerange, "now-24h")
 
@@ -1174,6 +1175,7 @@ def api_snmp_data():
     time_map = {
         "1h": "now-1h", "6h": "now-6h", "12h": "now-12h",
         "24h": "now-24h", "7d": "now-7d", "30d": "now-30d",
+        "90d": "now-90d", "180d": "now-180d",
     }
     time_from = time_map.get(timerange, "now-24h")
 
@@ -1198,6 +1200,7 @@ def api_snmp_data():
             "agent.name", "data.monitor.host.address",
             "data.monitor.host.name", "data.monitor.check_type",
             "data.monitor.snmp_data", "data.monitor.snmp_perf",
+            "data.monitor.snmp_performance",
             "data.monitor.status",
         ],
     }
@@ -1213,6 +1216,16 @@ def api_snmp_data():
             host_info = monitor.get("host", {})
             snmp_data = monitor.get("snmp_data", {})
             snmp_perf = monitor.get("snmp_perf", {})
+            snmp_performance = monitor.get("snmp_performance", {})
+            perf_cpu = snmp_performance.get("cpu", {})
+            perf_mem = snmp_performance.get("memory", {})
+            perf_disks = snmp_performance.get("disk", [])
+            perf_disk_max = ""
+            if perf_disks:
+                try:
+                    perf_disk_max = max(d.get("usage_pct", 0) for d in perf_disks)
+                except (ValueError, TypeError):
+                    perf_disk_max = perf_disks[0].get("usage_pct", "") if perf_disks else ""
             results.append({
                 "timestamp": src.get("timestamp", ""),
                 "rule_id": rule.get("id", ""),
@@ -1226,9 +1239,11 @@ def api_snmp_data():
                 "sys_name": snmp_data.get("sysName", ""),
                 "sys_uptime": snmp_data.get("sysUpTime", ""),
                 "sys_descr": snmp_data.get("sysDescr", ""),
-                "cpu_load": snmp_perf.get("cpu_load", ""),
-                "ram_percent": snmp_perf.get("ram_percent", ""),
-                "disk_percent": snmp_perf.get("disk_percent", ""),
+                "cpu_load": perf_cpu.get("load_1min", "") or snmp_perf.get("cpu_load", ""),
+                "ram_percent": perf_mem.get("usage_pct", "") or snmp_perf.get("ram_percent", ""),
+                "disk_percent": perf_disk_max or snmp_perf.get("disk_percent", ""),
+                "overall_status": snmp_performance.get("overall_status", ""),
+                "overall_severity": snmp_performance.get("overall_severity", ""),
             })
         return jsonify({"data": results, "total": len(results)})
     except Exception as e:
