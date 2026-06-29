@@ -1,0 +1,16 @@
+[Unit]
+Description=Ai-SOC.MSP Dashboard V2 - FortiSIEM-style Interface
+After=wazuh-manager.service
+Wants=wazuh-manager.service
+
+[Service]
+Type=simple
+ExecStart=/var/ossec/wodles/snmp-icmp-monitor/venv/bin/python /opt/wazuh-soc-dashboard/app.py --port 8444
+Restart=on-failure
+RestartSec=15
+User=root
+WorkingDirectory=/opt/wazuh-soc-dashboard
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

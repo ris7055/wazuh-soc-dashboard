@@ -1,0 +1,1743 @@
+/* ============================================================
+   Ai-SOC.MSP Dashboard V2 — FortiSIEM-style Dark Theme
+   ============================================================ */
+
+:root {
+    --bg-primary: #0a1628;
+    --bg-secondary: #0d1b2a;
+    --bg-card: #142236;
+    --bg-card-hover: #1a2d45;
+    --bg-header: #0f1923;
+    --bg-table-stripe: rgba(255,255,255,0.02);
+    --border-color: #1e3048;
+    --border-light: #2a3f5f;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6c757d;
+    --accent: #f7931a;
+    --accent-hover: #ff6b35;
+    --severity-critical: #ff1744;
+    --severity-high: #ff6d00;
+    --severity-medium: #ffc107;
+    --severity-low: #4caf50;
+    --severity-info: #2196f3;
+    --category-security: #ff5252;
+    --category-performance: #ffab40;
+    --category-availability: #69f0ae;
+    --category-change: #40c4ff;
+    --nav-height: 48px;
+    --subnav-height: 42px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    overflow-x: hidden;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #2a3f5f; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3d5a80; }
+
+/* ============ TOP NAVBAR ============ */
+.top-navbar {
+    display: flex;
+    align-items: center;
+    height: var(--nav-height);
+    background: linear-gradient(90deg, #0f1923 0%, #162133 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+}
+
+.top-nav-brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: 2rem;
+    white-space: nowrap;
+}
+.brand-text { color: #e6edf3; }
+.brand-accent { color: var(--accent); font-weight: 800; }
+
+.top-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex: 1;
+}
+
+.top-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 1.1rem;
+    height: var(--nav-height);
+    line-height: var(--nav-height);
+    color: #8b949e;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+.top-nav-item:hover {
+    color: #e6edf3;
+    background: rgba(255,255,255,0.04);
+}
+.top-nav-item.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: rgba(247,147,26,0.06);
+}
+.top-nav-item i { font-size: 0.9rem; }
+
+.top-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+.nav-clock {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+}
+
+/* ============ SUB NAVBAR ============ */
+.sub-navbar {
+    display: flex;
+    align-items: center;
+    height: var(--subnav-height);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1rem;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+.sub-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+}
+.sub-nav-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+.sub-nav-btn.active {
+    background: rgba(247,147,26,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.sub-nav-spacer { flex: 1; }
+.sub-nav-select {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 0.78rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* ============ MAIN CONTENT ============ */
+.main-content {
+    padding: 1rem;
+    min-height: calc(100vh - var(--nav-height) - var(--subnav-height));
+}
+
+/* ============ CARDS ============ */
+.soc-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.soc-card:hover { border-color: var(--border-light); }
+.soc-card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.soc-card-title i { color: var(--accent); }
+
+/* ---- Category Cards (Incidents by Category) ---- */
+.category-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    text-align: left;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.category-card:hover {
+    border-color: var(--border-light);
+    background: var(--bg-card-hover);
+    transform: translateY(-1px);
+}
+.category-card h6 {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+.category-card .cat-counts {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+.cat-count-item .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.cat-count-item .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.cat-total {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+.cat-total .arrow-up { color: var(--severity-high); }
+
+/* ---- Top Impacted Hosts ---- */
+.host-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--severity-high);
+    border-radius: 0 0 8px 8px;
+    padding: 0;
+    min-width: 220px;
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.host-card:hover { border-color: var(--border-light); transform: translateY(-1px); }
+.host-card-header {
+    background: var(--severity-high);
+    color: white;
+    padding: 4px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.host-card-header .risk-badge {
+    background: rgba(0,0,0,0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+}
+.host-card-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.host-card-count {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+.host-card-incidents {
+    flex: 1;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+.host-card-incidents .incident-line {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+.incident-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.incident-dot.critical { background: var(--severity-critical); }
+.incident-dot.high { background: var(--severity-high); }
+.incident-dot.medium { background: var(--severity-medium); }
+
+/* ---- Clickable Host Card Enhancements ---- */
+.host-card-clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.host-card-clickable:hover {
+    border-color: var(--accent) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+}
+.host-card-clickable:active {
+    transform: translateY(0);
+}
+
+/* ---- Host Card Header — severity-based coloring ---- */
+.host-card-header i {
+    font-size: 1rem;
+}
+
+/* ---- Hosts Grid ---- */
+.dash-hosts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.75rem;
+}
+
+/* ---- Severity Micro Pills (inside host cards) ---- */
+.host-sev-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+.micro-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+.micro-pill.crit {
+    background: rgba(255,23,68,0.15);
+    color: #ff1744;
+    border: 1px solid rgba(255,23,68,0.3);
+}
+.micro-pill.high {
+    background: rgba(255,109,0,0.15);
+    color: #ff6d00;
+    border: 1px solid rgba(255,109,0,0.3);
+}
+.micro-pill.med {
+    background: rgba(255,193,7,0.15);
+    color: #ffc107;
+    border: 1px solid rgba(255,193,7,0.3);
+}
+.micro-pill.low {
+    background: rgba(76,175,80,0.15);
+    color: #4caf50;
+    border: 1px solid rgba(76,175,80,0.3);
+}
+
+/* ---- Risk Badge Variants ---- */
+.risk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+.risk-critical {
+    background: rgba(255,23,68,0.25);
+    color: #ff1744;
+}
+.risk-high {
+    background: rgba(255,109,0,0.25);
+    color: #ff6d00;
+}
+.risk-medium {
+    background: rgba(255,193,7,0.25);
+    color: #ffc107;
+}
+.risk-low {
+    background: rgba(76,175,80,0.25);
+    color: #4caf50;
+}
+
+/* ---- Category Progress Bar ---- */
+.cat-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+.cat-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+/* ---- Drill-Down Modal Stats ---- */
+.drill-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid;
+    border-radius: 6px;
+    padding: 10px 16px;
+    min-width: 80px;
+    text-align: center;
+    flex: 1;
+}
+.drill-val {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+.drill-lbl {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+/* ---- MITRE ATT&CK Tag ---- */
+.mitre-tag {
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(33,150,243,0.15);
+    color: #64b5f6;
+    font-size: 0.68rem;
+    font-weight: 600;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* ---- Top Incidents Row ---- */
+.top-incident-card {
+    background: var(--severity-high);
+    color: white;
+    border-radius: 6px;
+    padding: 0;
+    flex: 1;
+    min-width: 200px;
+    overflow: hidden;
+}
+.top-incident-header {
+    padding: 6px 10px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.top-incident-body {
+    background: var(--bg-card);
+    padding: 8px 10px;
+    color: var(--text-primary);
+}
+.top-incident-count {
+    font-size: 1.8rem;
+    font-weight: 700;
+    float: left;
+    margin-right: 10px;
+}
+.top-incident-hosts {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ============ EXPLORER VIEW ============ */
+.explorer-chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.explorer-chart-title {
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+/* ---- 4-Panel Breakdown ---- */
+.breakdown-panels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+.breakdown-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.bp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.bp-header .bp-title { color: var(--accent); }
+.bp-header .bp-count { color: var(--text-secondary); font-weight: 400; }
+.bp-search {
+    width: 100%;
+    background: var(--bg-primary);
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    font-size: 0.75rem;
+}
+.bp-search:focus { outline: none; border-bottom-color: var(--accent); }
+.bp-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+.bp-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+.bp-item:hover { background: rgba(255,255,255,0.04); }
+.bp-item.selected { background: var(--accent); color: white; }
+.bp-item .bp-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    margin-right: 8px;
+}
+.bp-item .bp-val { font-weight: 600; color: var(--accent); flex-shrink: 0; }
+.bp-item.selected .bp-val { color: #fff; }
+
+/* Active panel (has a filter set) */
+.breakdown-panel.bp-active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* ---- Explorer Filter Banner ---- */
+.explorer-filter-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    margin-bottom: 0.75rem;
+    background: rgba(13,110,253,0.08);
+    border: 1px solid rgba(13,110,253,0.25);
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+.explorer-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent);
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+}
+.explorer-filter-chip i {
+    cursor: pointer;
+    opacity: 0.8;
+    font-size: 0.7rem;
+}
+.explorer-filter-chip i:hover { opacity: 1; }
+.explorer-clear-all {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-left: auto;
+    text-decoration: underline;
+}
+.explorer-clear-all:hover { color: var(--accent); }
+
+/* Clickable explorer table rows */
+.explorer-row { cursor: pointer; transition: background 0.15s; }
+.explorer-row:hover { background: rgba(255,255,255,0.04) !important; }
+
+/* ============ INCIDENTS TABLE ============ */
+.incidents-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+.incidents-table thead th {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.incidents-table thead th:hover { color: var(--text-primary); }
+.incidents-table tbody tr {
+    border-bottom: 1px solid rgba(30,48,72,0.5);
+    transition: background 0.1s;
+}
+.incidents-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.incidents-table tbody tr:nth-child(even) { background: var(--bg-table-stripe); }
+.incidents-table tbody td {
+    padding: 6px 10px;
+    vertical-align: middle;
+    color: var(--text-primary);
+}
+
+/* ---- Severity Badges ---- */
+.sev-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.sev-critical { background: var(--severity-critical); color: white; }
+.sev-high { background: var(--severity-high); color: white; }
+.sev-medium { background: var(--severity-medium); color: #333; }
+.sev-low { background: var(--severity-low); color: white; }
+.sev-info { background: var(--severity-info); color: white; }
+
+/* ---- Category Badges ---- */
+.cat-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+.cat-security { background: rgba(255,82,82,0.15); color: var(--category-security); border: 1px solid rgba(255,82,82,0.3); }
+.cat-performance { background: rgba(255,171,64,0.15); color: var(--category-performance); border: 1px solid rgba(255,171,64,0.3); }
+.cat-availability { background: rgba(105,240,174,0.15); color: var(--category-availability); border: 1px solid rgba(105,240,174,0.3); }
+.cat-change { background: rgba(64,196,255,0.15); color: var(--category-change); border: 1px solid rgba(64,196,255,0.3); }
+
+/* ============ CMDB ============ */
+.cmdb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+.cmdb-table thead th {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.cmdb-table tbody tr {
+    border-bottom: 1px solid rgba(30,48,72,0.5);
+    cursor: pointer;
+    transition: background 0.1s;
+}
+.cmdb-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.cmdb-table tbody td { padding: 6px 10px; vertical-align: middle; }
+
+.agent-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.status-active { background: #28a745; }
+.status-disconnected { background: #dc3545; }
+.status-never { background: #6c757d; }
+
+/* ---- Health Bars ---- */
+.health-bar-container {
+    width: 80px;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+.health-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+.health-green { background: #28a745; }
+.health-yellow { background: #ffc107; }
+.health-red { background: #dc3545; }
+
+/* ============ AGENT DETAIL MODAL ============ */
+.detail-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.detail-section h6 {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+}
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+.detail-item {
+    display: flex;
+    gap: 8px;
+}
+.detail-label {
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    min-width: 120px;
+}
+.detail-value {
+    color: var(--text-primary);
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+/* ============ STAT CARDS (Dashboard) ============ */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+.stat-card-v2 {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+}
+.stat-card-v2:hover { border-color: var(--border-light); }
+.stat-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+.stat-card-v2 .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary);
+}
+.stat-card-v2 .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ============ SECTION HEADERS ============ */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding: 0 0.25rem;
+}
+.section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.section-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* ============ TOAST ============ */
+.toast-container .toast {
+    font-size: 0.85rem;
+}
+
+/* ============ ICMP / SNMP TABLES ============ */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+.data-table thead th {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+}
+.data-table tbody tr {
+    border-bottom: 1px solid rgba(30,48,72,0.5);
+}
+.data-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.data-table tbody td { padding: 6px 10px; }
+
+/* ============ CHART CONTAINER ============ */
+.chart-container {
+    position: relative;
+    height: 220px;
+    width: 100%;
+}
+
+/* ============ EMPTY STATE ============ */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+}
+.empty-state i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.4;
+}
+
+/* ============ SEVERITY SUMMARY BAR ============ */
+.sev-summary-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+}
+.sev-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.sev-summary-item .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1200px) {
+    .breakdown-panels { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .breakdown-panels { grid-template-columns: 1fr; }
+    .top-nav-links { overflow-x: auto; }
+    .detail-grid { grid-template-columns: 1fr; }
+}
+
+/* ============ TABLE SCROLL WRAPPER ============ */
+.table-scroll {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+/* ============ FILTER ROW ============ */
+.filter-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+.filter-input {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+}
+.filter-input:focus { outline: none; border-color: var(--accent); }
+
+/* ============ RECENT ALERTS TABLE (Dashboard) ============ */
+.recent-alerts-table {
+    width: 100%;
+    font-size: 0.78rem;
+    border-collapse: collapse;
+}
+.recent-alerts-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(30,48,72,0.5);
+    vertical-align: middle;
+}
+.recent-alerts-table tr:hover {
+    background: rgba(255,255,255,0.02);
+}
+
+/* ============ INCIDENTS OVERVIEW — Summary Bar ============ */
+.inc-overview-summary-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+}
+.inc-summary-total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--border-color);
+}
+.inc-summary-count {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+}
+.inc-summary-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+.inc-summary-severity-pills {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+.inc-sev-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+.inc-sev-pill strong {
+    font-size: 1.1rem;
+}
+.inc-sev-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ============ INCIDENTS OVERVIEW — Timeline ============ */
+.inc-timeline {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.inc-timeline-item {
+    display: flex;
+    gap: 12px;
+    position: relative;
+}
+.inc-timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 16px;
+}
+.inc-timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+.inc-timeline-line {
+    width: 2px;
+    flex: 1;
+    background: var(--border-color);
+    min-height: 20px;
+}
+.inc-timeline-item:last-child .inc-timeline-line {
+    display: none;
+}
+.inc-timeline-content {
+    flex: 1;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(30,48,72,0.3);
+    margin-bottom: 0.5rem;
+}
+.inc-timeline-item:last-child .inc-timeline-content {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.inc-timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+.inc-timeline-ts {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+}
+.inc-timeline-desc {
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+.inc-timeline-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+.inc-timeline-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+.inc-timeline-meta i {
+    font-size: 0.72rem;
+}
+
+/* Severity background dots for timeline */
+.sev-bg-critical { background: var(--severity-critical); }
+.sev-bg-high { background: var(--severity-high); }
+.sev-bg-medium { background: var(--severity-medium); }
+.sev-bg-low { background: var(--severity-low); }
+.sev-bg-info { background: var(--severity-info); }
+
+/* ============================================================
+   UEBA — User & Entity Behavior Analytics
+   ============================================================ */
+
+/* Risk gauge circle in table */
+.ueba-risk-gauge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.ueba-risk-gauge-sm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.75rem;
+    background: rgba(255,255,255,0.05);
+}
+
+/* Entity type badge */
+.ueba-type-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(33,150,243,0.15);
+    color: #64b5f6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Anomaly badge (border-only) */
+.ueba-anom-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    border: 1px solid;
+    background: transparent;
+}
+
+/* UEBA indicator code tags */
+.ueba-indicator {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    background: rgba(255,255,255,0.06);
+    color: #aaa;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Entity row hover */
+.ueba-entity-row:hover {
+    background: rgba(33,150,243,0.08) !important;
+}
+
+/* Detail modal header */
+.ueba-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+.ueba-detail-risk-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.ueba-risk-number {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+.ueba-risk-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+.ueba-detail-info h4 {
+    margin: 0 0 6px 0;
+    color: #e0e0e0;
+}
+
+/* Severity breakdown cards in detail modal */
+.ueba-sev-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid;
+    background: rgba(255,255,255,0.02);
+    text-align: center;
+}
+.ueba-sev-val {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.ueba-sev-lbl {
+    font-size: 0.72rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Anomaly card in detail modal */
+.ueba-anomaly-card {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 6px;
+}
+
+/* UEBA Clickable Summary Cards */
+.ueba-clickable-card {
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    border: 1px solid transparent;
+}
+.ueba-clickable-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255,193,7,0.15);
+    border-color: rgba(255,193,7,0.3);
+}
+.ueba-clickable-card:active {
+    transform: translateY(0);
+}
+
+/* UEBA Main Tabs (Hosts / Users / Correlations / Anomalies) */
+.ueba-main-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 8px 12px 0 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow-x: auto;
+}
+.ueba-main-tab {
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.ueba-main-tab:hover {
+    color: #ccc;
+    background: rgba(255,255,255,0.03);
+}
+.ueba-main-tab.active {
+    color: #ffc107;
+    border-bottom-color: #ffc107;
+}
+.ueba-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: rgba(255,255,255,0.08);
+    color: #aaa;
+}
+.ueba-main-tab.active .ueba-tab-count {
+    background: rgba(255,193,7,0.15);
+    color: #ffc107;
+}
+
+/* UEBA Ranking Sub-Tabs (Risk / Entity Type / Risk Level / Alerts / Anomalies / MITRE) */
+.ueba-ranking-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap;
+}
+.ueba-rank-tab {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    border-radius: 14px;
+    transition: all 0.2s;
+}
+.ueba-rank-tab:hover {
+    color: #ccc;
+    background: rgba(255,255,255,0.06);
+}
+.ueba-rank-tab.active {
+    color: #fff;
+    background: rgba(255,193,7,0.2);
+    border: 1px solid rgba(255,193,7,0.4);
+}
+
+/* UEBA Group Headers (for entity_type and risk_level views) */
+.ueba-group-header {
+    padding: 8px 12px;
+    margin-top: 8px;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid #ffc107;
+    border-radius: 0 6px 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* MITRE ATT&CK Heatmap Grid */
+.ueba-mitre-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px;
+}
+.ueba-mitre-cell {
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    min-width: 110px;
+    text-align: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 1px solid rgba(156,39,176,0.2);
+}
+.ueba-mitre-cell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(156,39,176,0.3);
+}
+.ueba-mitre-id {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #e0e0e0;
+}
+.ueba-mitre-count {
+    font-size: 0.68rem;
+    color: #bbb;
+    margin-top: 2px;
+}
+
+/* UEBA Filter Badge (for chart click-through) */
+.ueba-filter-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(255,193,7,0.15);
+    color: #ffc107;
+    border: 1px solid rgba(255,193,7,0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.ueba-filter-active:hover {
+    background: rgba(255,193,7,0.25);
+}
+
+/* MITRE ATT&CK tags */
+.mitre-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: rgba(156,39,176,0.15);
+    color: #ce93d8;
+    border: 1px solid rgba(156,39,176,0.3);
+}
+
+/* ---- Device Inventory (migrated from V1) ---- */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.status-dot.status-up { background: #4caf50; box-shadow: 0 0 4px rgba(76,175,80,0.5); }
+.status-dot.status-down { background: #f44336; box-shadow: 0 0 4px rgba(244,67,54,0.5); }
+.status-dot.status-unknown { background: #9e9e9e; }
+
+.inv-status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.inv-status-badge.status-up {
+    background: rgba(76,175,80,0.15);
+    color: #4caf50;
+    border: 1px solid rgba(76,175,80,0.3);
+}
+.inv-status-badge.status-down {
+    background: rgba(244,67,54,0.15);
+    color: #f44336;
+    border: 1px solid rgba(244,67,54,0.3);
+}
+.inv-status-badge.status-unknown {
+    background: rgba(158,158,158,0.15);
+    color: #9e9e9e;
+    border: 1px solid rgba(158,158,158,0.3);
+}
+
+.protocol-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.protocol-badge.protocol-icmp {
+    background: rgba(33,150,243,0.15);
+    color: #42a5f5;
+    border: 1px solid rgba(33,150,243,0.3);
+}
+.protocol-badge.protocol-snmp {
+    background: rgba(0,188,212,0.15);
+    color: #26c6da;
+    border: 1px solid rgba(0,188,212,0.3);
+}
+
+.group-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    background: rgba(255,255,255,0.06);
+    color: #8b949e;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Sortable table headers */
+.sortable-th { cursor: pointer; user-select: none; white-space: nowrap; }
+.sortable-th:hover { color: #f7931a; }
+
+/* Inventory actions column */
+.inv-actions { white-space: nowrap; }
+.inv-actions .btn { padding: 2px 6px; margin: 0 2px; }
+
+/* ---- Modal Overlay ---- */
+.inv-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+.inv-modal {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+.inv-modal-md { max-width: 700px; }
+.inv-modal-lg { max-width: 900px; }
+.inv-modal-sm { max-width: 450px; }
+.inv-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #30363d;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #e6edf3;
+}
+.inv-modal-body {
+    padding: 20px;
+}
+
+/* ---- Device Form Styles ---- */
+.inv-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-bottom: 4px;
+}
+.inv-input {
+    width: 100%;
+    padding: 6px 10px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #e6edf3;
+    font-size: 0.85rem;
+}
+.inv-input:focus {
+    outline: none;
+    border-color: #f7931a;
+}
+.inv-form-section {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e6edf3;
+    margin: 12px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #21262d;
+}
+
+/* ---- Device Details ---- */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } }
+
+.detail-section {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 16px;
+}
+.detail-section-title {
+    font-weight: 600;
+    color: #e6edf3;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+.detail-table {
+    width: 100%;
+    font-size: 0.82rem;
+}
+.detail-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid #161b22;
+    color: #e6edf3;
+}
+.detail-table td:first-child {
+    color: #8b949e;
+    width: 120px;
+    font-weight: 500;
+}
+.detail-alerts-scroll {
+    max-height: 280px;
+    overflow-y: auto;
+}
+.detail-alert-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #161b22;
+}
+
+/* OpenSearch Dashboard-style Time | Refresh bar */
+.osd-time-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0d1117;
+}
+.osd-time-select {
+    background: #161b22;
+    color: #e6edf3;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+.osd-time-select:hover {
+    background: #1c2333;
+}
+.osd-refresh-btn {
+    background: #161b22;
+    color: #58a6ff;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    transition: background 0.15s;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+.osd-refresh-btn:hover {
+    background: #1c2333;
+    color: #79c0ff;
+}
+.osd-refresh-select {
+    background: #161b22;
+    color: #aaa;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    outline: none;
+}
+.osd-refresh-select:hover {
+    background: #1c2333;
+}
+.osd-countdown {
+    padding: 2px 8px;
+    font-size: 0.72rem;
+    color: #58a6ff;
+    font-weight: 600;
+    min-width: 28px;
+    text-align: center;
+}
+
+/* ML / RCF Anomaly Detection badges */
+.ueba-ml-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(0,230,118,0.1);
+    border: 1px solid rgba(0,230,118,0.3);
+}
+.ueba-ml-grade {
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.ueba-ml-badge small {
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* ============================================================
+   CASES — Incident Investigation (FortiSIEM-style)
+   ============================================================ */
+.case-detail-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.case-detail-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+.case-detail-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+.case-detail-tabs .btn-xs {
+    font-size: .68rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+.case-meta-table {
+    width: 100%;
+    font-size: .75rem;
+}
+.case-meta-table td {
+    padding: 4px 0;
+    vertical-align: top;
+    color: #e0e0e0;
+}
+.case-meta-label {
+    color: #8b949e;
+    white-space: nowrap;
+    padding-right: 8px;
+    width: 110px;
+}
+.case-timeline-item {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+}
+.case-timeline-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+.case-timeline-item.active {
+    background: rgba(33,150,243,0.15);
+    border: 1px solid rgba(33,150,243,0.4);
+}
+.case-tl-bar {
+    width: 4px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+.case-tl-content {
+    flex: 1;
+    min-width: 0;
+}
+.case-tl-info {
+    color: #8b949e;
+    font-size: .8rem;
+    align-self: center;
+}
+.case-timeline-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.case-timeline-controls .btn-xs {
+    font-size: .7rem;
+    padding: 2px 6px;
+}
+.case-event-item {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.case-event-item:last-child {
+    border-bottom: none;
+}
+.case-node {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.case-node:hover {
+    opacity: 0.8;
+}
+#case-topology-graph svg text {
+    pointer-events: none;
+    user-select: none;
+}

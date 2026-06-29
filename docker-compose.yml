@@ -1,0 +1,64 @@
+# ============================================================
+# Ai-SOC.MSP Dashboard V2 — Docker Compose
+# Runs alongside existing Zabbix containers without conflict
+# ============================================================
+#
+# Usage:
+#   docker compose up -d          # Start
+#   docker compose logs -f        # View logs
+#   docker compose down           # Stop
+#   docker compose up -d --build  # Rebuild after code changes
+#
+# Access: https://<SERVER_IP>:8444
+# Login:  admin / adminW@zuh
+
+services:
+  soc-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wazuh-soc-dashboard
+    restart: unless-stopped
+
+    # network_mode: host gives the container direct access to
+    # Wazuh API (127.0.0.1:55000) and Indexer (127.0.0.1:9200)
+    # without needing extra network config.
+    # Port 8444 is exposed directly on the host.
+    network_mode: host
+
+    environment:
+      # --- Wazuh API credentials ---
+      - WAZUH_API_URL=https://127.0.0.1:55000
+      - WAZUH_API_USER=wazuh-wui
+      - WAZUH_API_PASS=WmIB*DpruSCjX7ygiGhoqXp.I6EDJ4TH
+
+      # --- Wazuh Indexer credentials ---
+      - WAZUH_INDEXER_URL=https://127.0.0.1:9200
+      - WAZUH_INDEXER_USER=kibanaro
+      - WAZUH_INDEXER_PASSWORD=Br?nO.UmT25r+ue8FhRacY99zHk8Ym*0
+
+      # --- Python ---
+      - PYTHONUNBUFFERED=1
+
+    volumes:
+      # Persist user data (login credentials, password changes)
+      - soc-data:/app/data
+
+      # Mount Let's Encrypt certs (if available) for trusted HTTPS
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+
+      # Mount V1 wodle directory for Device Inventory + Discovery Scanner
+      - /var/ossec/wodles/snmp-icmp-monitor:/var/ossec/wodles/snmp-icmp-monitor
+
+      # Mount Wazuh logs directory so the app can write its log alongside other Wazuh logs
+      - /var/ossec/logs:/var/ossec/logs
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  soc-data:
+    name: wazuh-soc-dashboard-data
